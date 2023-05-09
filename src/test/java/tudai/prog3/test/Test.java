@@ -23,12 +23,19 @@ public class Test {
 
 		ServicioDFS dfs = new ServicioDFS(grafo);
 		ServicioBFS bfs = new ServicioBFS(grafo);
+//		ServicioCaminos cam = new ServicioCaminos(grafo, 3, 9, 2);
 
 		List<Integer> dfs_forest = dfs.dfsForest();
 		System.out.println("\nDFS Forest: " + dfs_forest);
 
 		List<Integer> bfs_forest = bfs.bfsForest();
 		System.out.println("\nBFS Forest: " + bfs_forest);
+
+//		List<List<Integer>> caminos = cam.caminos();
+//		System.out.println("\nCaminos: ");
+//		for(List<Integer> list:caminos) {
+//			System.out.println(list.toString());
+//		}
 
 
 
