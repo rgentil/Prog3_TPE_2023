@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 import tudai.prog3.collections.Grafo;
 
 public class ServicioDFS {
@@ -19,46 +20,37 @@ public class ServicioDFS {
 
 	private void init() {
 		if (this.grafo != null) {
-			Iterator<Integer> it = this.grafo.obtenerVertices();
-			if (it != null) {
-				while (it.hasNext()) {
-					this.vertices.put(it.next(), "WHITE");
-				}
+			for (Iterator<Integer> it = this.grafo.obtenerVertices(); it.hasNext();) {
+				Integer vertice = (Integer) it.next();
+				this.vertices.put(vertice, "WHITE");
 			}
 		}
-	}
-
-	private void dfsForest_visit(List<Integer> result, Integer current) {
-		this.vertices.put(current, "YELLOW");
-		result.add(current);
-
-		Iterator<Integer> it = this.grafo.obtenerAdyacentes(current);
-		while (it.hasNext()) {
-			Integer ady = it.next();
-			if (this.vertices.get(ady).equals("WHITE")) {
-				this.dfsForest_visit(result, ady);
-			}
-		}
-
-		this.vertices.put(current, "BLACK");
 	}
 
 	public List<Integer> dfsForest() {
-		Iterator<Integer> it = this.vertices.keySet().iterator();
-		while (it.hasNext()) {
-			vertices.put(it.next(), "WHITE");
-		}
-
-		List<Integer> result = new ArrayList<>();
-		it = this.vertices.keySet().iterator();
-		while (it.hasNext()) {
-			Integer current = it.next();
-			if (this.vertices.get(current).equals("WHITE")) {
-				this.dfsForest_visit(result, current);
+		this.init();
+		List<Integer> result = new ArrayList<Integer>();
+		for (Iterator<Integer> iterator = grafo.obtenerVertices(); iterator.hasNext();) {
+			Integer vertice = (Integer) iterator.next();
+			if (vertices.get(vertice).equals("WHITE")) {
+				result.addAll(dfsForest_visit(vertice));
 			}
 		}
-
 		return result;
+	}
+
+	private List<Integer> dfsForest_visit(Integer vertice) {
+		List<Integer> resultado = new ArrayList<Integer>();
+		vertices.put(vertice, "YELLOW");
+		resultado.add(vertice);
+		for (Iterator<Integer> it = grafo.obtenerAdyacentes(vertice); it.hasNext();) {
+			Integer adyacente = (Integer) it.next();
+			if (vertices.get(adyacente).equals("WHITE")) {
+				resultado.addAll(dfsForest_visit(adyacente));
+			}
+		}
+		vertices.put(vertice, "BLACK");
+		return resultado;
 	}
 
 }
