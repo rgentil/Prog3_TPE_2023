@@ -1,4 +1,4 @@
-package tudai.prog3.collections;
+package tudai.prog3.colecciones;
 
 
 /*

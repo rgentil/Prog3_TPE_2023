@@ -1,8 +1,8 @@
 package tudai.prog3.test;
 
-import tudai.prog3.collections.GrafoDirigido;
-import tudai.prog3.services.ServicioBFS;
-import tudai.prog3.services.ServicioDFS;
+import tudai.prog3.colecciones.GrafoDirigido;
+import tudai.prog3.servicios.ServicioBFS;
+import tudai.prog3.servicios.ServicioDFS;
 
 import java.util.List;
 

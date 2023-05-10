@@ -1,4 +1,4 @@
-package tudai.prog3.collections;
+package tudai.prog3.colecciones;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -81,8 +81,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Integer> obtenerVertices() {
-		if (this.vertices.isEmpty())
-			return null;
 		return this.vertices.keySet().iterator();
 	}
 

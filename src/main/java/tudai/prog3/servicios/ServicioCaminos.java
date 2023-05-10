@@ -1,9 +1,11 @@
-package tudai.prog3.services;
-/*
-import java.util.*;
+package tudai.prog3.servicios;
 
-import tudai.prog3.collections.Arco;
-import tudai.prog3.collections.Grafo;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import tudai.prog3.colecciones.Arco;
+import tudai.prog3.colecciones.Grafo;
 
 public class ServicioCaminos {
 
@@ -12,7 +14,7 @@ public class ServicioCaminos {
 	private int destino;
 	private int lim;
 
-	private List<Arco<T>> visitados;
+	private List<Arco<?>> visitados;
 
 	// Servicio caminos
 	public ServicioCaminos(Grafo<?> grafo, int origen, int destino, int lim) {
@@ -20,21 +22,21 @@ public class ServicioCaminos {
 		this.origen = origen;
 		this.destino = destino;
 		this.lim = lim;
-		this.visitados = new ArrayList<Arco<T>>();
+		this.visitados = new ArrayList<Arco<?>>();
 	}
 
 
-	private List<Integer> listarNodos(List<Arco<T>> actual) {
+	private List<Integer> listarNodos(List<Arco<?>> actual) {
 		List<Integer> lista = new ArrayList<>();
 		lista.add(actual.get(0).getVerticeOrigen());
-		for(Arco<T> a: actual) {
+		for(Arco<?> a: actual) {
 			lista.add(a.getVerticeDestino());
 		}
 		return lista;
 	}
 
 
-	private List<Arco<T>> caminos(List<Arco<T>> actual, Arco<T> arco, int cont) {
+	private List<Arco<?>> caminos(List<Arco<?>> actual, Arco<?> arco, int cont) {
 		if (!this.visitados.contains(arco)) {
 			this.visitados.add(arco);
 			cont += 1;
@@ -44,10 +46,10 @@ public class ServicioCaminos {
 				actual.add(arco);
 			} else {
 				if (cont < this.lim) {
-					Iterator<Arco<T>> it = this.grafo.obtenerArcos(arco.getVerticeDestino());
+					Iterator<?> it = this.grafo.obtenerArcos(arco.getVerticeDestino());
 					if (it != null) {
                         while (it.hasNext()) {
-                            this.caminos(actual, it.next(), cont);
+                            this.caminos(actual, (Arco<?>) it.next(), cont);
                             if (!actual.isEmpty()) {
                                 actual.add(0, arco);
                                 return actual;
@@ -67,12 +69,12 @@ public class ServicioCaminos {
 
             this.visitados.clear();
 
-            Iterator<Arco<T>> it = grafo.obtenerArcos(this.origen);
+            Iterator<?> it = grafo.obtenerArcos(this.origen);
             if (it != null) {
                 while (it.hasNext()) {
-                    Arco<T> arco = it.next();
+                    Arco<?> arco = (Arco<?>) it.next();
                     if (!this.visitados.contains(arco)) {
-                        List<Arco<T>> actual = this.caminos(new ArrayList<>(), arco, 0);
+                        List<Arco<?>> actual = this.caminos(new ArrayList<>(), arco, 0);
                         if (!actual.isEmpty()) {
                             caminos.add(this.listarNodos(actual));
                         }
@@ -85,7 +87,3 @@ public class ServicioCaminos {
 	}
 
 }
-
-
-
- */
