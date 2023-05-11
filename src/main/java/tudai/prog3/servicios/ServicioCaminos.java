@@ -1,20 +1,28 @@
 package tudai.prog3.servicios;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import tudai.prog3.colecciones.Arco;
 import tudai.prog3.colecciones.Grafo;
 
+/**
+ * Caminos : dado un origen, un destino y un límite “lim” retorna todos los
+ * caminos que, partiendo del vértice origen, llega al vértice de destino sin
+ * pasar por más de “lim” arcos. Aclaración importante: en un camino no se puede
+ * pasar 2 veces por el mismo arco.
+ * 
+ * @author Lauge Guillermina, Gentil Ricardo
+ *
+ */
 public class ServicioCaminos {
 
 	private Grafo<?> grafo;
 	private int origen;
 	private int destino;
 	private int lim;
-
-	private List<Arco<?>> visitados;
+	private HashMap<Integer, String> vertices;
 
 	// Servicio caminos
 	public ServicioCaminos(Grafo<?> grafo, int origen, int destino, int lim) {
@@ -22,68 +30,42 @@ public class ServicioCaminos {
 		this.origen = origen;
 		this.destino = destino;
 		this.lim = lim;
-		this.visitados = new ArrayList<Arco<?>>();
 	}
 
-
-	private List<Integer> listarNodos(List<Arco<?>> actual) {
-		List<Integer> lista = new ArrayList<>();
-		lista.add(actual.get(0).getVerticeOrigen());
-		for(Arco<?> a: actual) {
-			lista.add(a.getVerticeDestino());
+	private void iniciarEstructura() {
+		if (this.grafo != null) {
+			for (Iterator<Integer> it = this.grafo.obtenerVertices(); it.hasNext();) {
+				Integer vertice = (Integer) it.next();
+				this.vertices.put(vertice, "BLANCO");
+			}
 		}
-		return lista;
 	}
 
+	public List<List<Integer>> caminos() {
+		this.iniciarEstructura();
+		List<List<Integer>> caminosFinal = new ArrayList<List<Integer>>();
+		List<Integer> caminoAux = new ArrayList<Integer>();
+		caminos(origen, 0, caminosFinal, caminoAux);
+		return caminosFinal;
+	}
 
-	private List<Arco<?>> caminos(List<Arco<?>> actual, Arco<?> arco, int cont) {
-		if (!this.visitados.contains(arco)) {
-			this.visitados.add(arco);
-			cont += 1;
-
-			Integer destino = arco.getVerticeDestino();
-			if (destino == this.destino && cont <= this.lim) {
-				actual.add(arco);
-			} else {
-				if (cont < this.lim) {
-					Iterator<?> it = this.grafo.obtenerArcos(arco.getVerticeDestino());
-					if (it != null) {
-                        while (it.hasNext()) {
-                            this.caminos(actual, (Arco<?>) it.next(), cont);
-                            if (!actual.isEmpty()) {
-                                actual.add(0, arco);
-                                return actual;
-                            }
-                        }
-                    }
+	private void caminos(Integer i, int cantArcosPasados, List<List<Integer>> caminosFinal, List<Integer> caminoAux) {
+		vertices.put(i, "AMARILLO");
+		caminoAux.add(i);
+		cantArcosPasados++;
+		if (i == this.destino && cantArcosPasados <= this.lim) {
+			caminosFinal.add(new ArrayList<Integer>(caminoAux));
+		} else {
+			for (Iterator<Integer> it = grafo.obtenerAdyacentes(i); it.hasNext();) {
+				Integer adyacente = (Integer) it.next();
+				if (vertices.get(adyacente).equals("BLANCO")) {
+					caminos(adyacente, cantArcosPasados, caminosFinal, caminoAux);
 				}
 			}
 		}
-		return actual;
-	}
-
-
-	public List<List<Integer>> caminos() {
-        List<List<Integer>> caminos = new ArrayList<>();
-		if (this.lim > 0 && this.grafo != null) {
-
-            this.visitados.clear();
-
-            Iterator<?> it = grafo.obtenerArcos(this.origen);
-            if (it != null) {
-                while (it.hasNext()) {
-                    Arco<?> arco = (Arco<?>) it.next();
-                    if (!this.visitados.contains(arco)) {
-                        List<Arco<?>> actual = this.caminos(new ArrayList<>(), arco, 0);
-                        if (!actual.isEmpty()) {
-                            caminos.add(this.listarNodos(actual));
-                        }
-                    }
-                }
-            }
-
-        }
-		return caminos;
+		vertices.put(i, "BLANCO");
+		caminoAux.remove(caminoAux.size() - 1);
+		cantArcosPasados--;
 	}
 
 }

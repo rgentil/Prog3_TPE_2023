@@ -4,6 +4,13 @@ import java.util.*;
 
 import tudai.prog3.colecciones.Grafo;
 
+/**
+ * BFS Forest : dado un grafo, realiza un recorrido en anchura y retorna un
+ * orden posible de descubrimiento para los vértices durante ese recorrido.
+ * 
+ * @author Lauge Guillermina, Gentil Ricardo
+ *
+ */
 public class ServicioBFS {
 
 	private Grafo<?> grafo;
@@ -14,6 +21,9 @@ public class ServicioBFS {
 		this.visitados = new HashMap<Integer, Boolean>();
 	}
 
+	/**
+	 * Inicia todos los vertices como no visitados.
+	 */
 	private void iniciarEstructura() {
 		if (this.grafo != null) {
 			for (Iterator<Integer> iterator = grafo.obtenerVertices(); iterator.hasNext();) {
@@ -23,6 +33,13 @@ public class ServicioBFS {
 		}
 	}
 
+	/**
+	 *
+	 * Inicio la estructura. Recorro todos los vertices que no fueron vistados.
+	 * O(|V|+|A|). Va a pasar una vez por cada vertice y una vez por cada arco.
+	 * 
+	 * @return Lista con el camino recorrido
+	 */
 	public List<Integer> bfsForest() {
 		this.iniciarEstructura();
 		List<Integer> resultado = new ArrayList<Integer>();
@@ -35,6 +52,15 @@ public class ServicioBFS {
 		return resultado;
 	}
 
+	/**
+	 * Marcar el vértice origen como VISITADO y lo agrego a la fila. Tomo el primer
+	 * vertice de la fila y recorro todos los adyacentes que no fueron visitados y
+	 * los voy marcando agregando a la salida para visitarlos a todos y al final
+	 * para mostrarlo como solución
+	 * 
+	 * @param origen Vertice origen
+	 * @return
+	 */
 	private List<Integer> bfsForest(Integer origen) {
 		ArrayList<Integer> fila = new ArrayList<>();
 		ArrayList<Integer> salida = new ArrayList<>();

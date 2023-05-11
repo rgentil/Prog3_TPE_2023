@@ -1,6 +1,5 @@
 package tudai.prog3.colecciones;
 
-
 /*
  * La clase arco representa un arco del grafo. Contiene un vertice origen, un vertice destino y una etiqueta.
  * Nota: Para poder exponer los arcos fuera del grafo y que nadie los modifique se hizo esta clase inmutable
@@ -17,11 +16,11 @@ public class Arco<T> {
 		this.verticeDestino = verticeDestino;
 		this.etiqueta = etiqueta;
 	}
-	
+
 	public int getVerticeOrigen() {
 		return verticeOrigen;
 	}
-	
+
 	public int getVerticeDestino() {
 		return verticeDestino;
 	}

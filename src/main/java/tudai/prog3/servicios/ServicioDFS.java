@@ -7,6 +7,12 @@ import java.util.List;
 
 import tudai.prog3.colecciones.Grafo;
 
+/**
+ * DFS Forest : dado un grafo, realiza un recorrido en profundidad y retorna un
+ * orden posible de descubrimiento para los vértices durante ese recorrido.
+ * 
+ * @author Lauge Guillermina, Gentil Ricardo
+ */
 public class ServicioDFS {
 
 	private final Grafo<?> grafo;
@@ -15,7 +21,6 @@ public class ServicioDFS {
 	public ServicioDFS(Grafo<?> grafo) {
 		this.grafo = grafo;
 		this.vertices = new HashMap<>();
-		this.iniciarEstructura();
 	}
 
 	private void iniciarEstructura() {
@@ -33,20 +38,20 @@ public class ServicioDFS {
 		for (Iterator<Integer> iterator = grafo.obtenerVertices(); iterator.hasNext();) {
 			Integer vertice = (Integer) iterator.next();
 			if (vertices.get(vertice).equals("BLANCO")) {
-				result.addAll(dfsForest_visit(vertice));
+				result.addAll(dfsForest(vertice));
 			}
 		}
 		return result;
 	}
 
-	private List<Integer> dfsForest_visit(Integer vertice) {
+	private List<Integer> dfsForest(Integer vertice) {
 		List<Integer> resultado = new ArrayList<Integer>();
 		vertices.put(vertice, "AMARILLO");
 		resultado.add(vertice);
 		for (Iterator<Integer> it = grafo.obtenerAdyacentes(vertice); it.hasNext();) {
 			Integer adyacente = (Integer) it.next();
 			if (vertices.get(adyacente).equals("BLANCO")) {
-				resultado.addAll(dfsForest_visit(adyacente));
+				resultado.addAll(dfsForest(adyacente));
 			}
 		}
 		vertices.put(vertice, "NEGRO");
