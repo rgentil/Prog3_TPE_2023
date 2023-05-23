@@ -32,10 +32,11 @@ public class Test {
 
 		// Ciclo
 		g.agregarArco(4, 1, null);
+		g.agregarArco(1, 1, null);
 
 		ServicioDFS dfs = new ServicioDFS(g);
 		ServicioBFS bfs = new ServicioBFS(g);
-		ServicioCaminos cam = new ServicioCaminos(g, 1, 5, 3);
+		ServicioCaminos cam = new ServicioCaminos(g, 1, 5, 10);
 
 		List<Integer> dfs_forest = dfs.dfsForest();
 		System.out.println("\nDFS Forest: " + dfs_forest);

@@ -22,7 +22,8 @@ public class ServicioBFS {
 	}
 
 	/**
-	 * Inicia todos los vertices como no visitados.
+	 * Inicializa todos los vertices como false = "NO VISITADOS".
+	 * Complejidad: O(1)
 	 */
 	private void iniciarEstructura() {
 		if (this.grafo != null) {
@@ -34,10 +35,13 @@ public class ServicioBFS {
 	}
 
 	/**
+	 * Método público bfsForest:
 	 *
-	 * Inicio la estructura. Recorro todos los vertices que no fueron vistados.
-	 * O(|V|+|A|). Va a pasar una vez por cada vertice y una vez por cada arco.
-	 * 
+	 * Complejidad: O(V+A) donde V es la cantidad de vértices y A, la cantidad de arcos,
+	 * dado que en el peor de los casos se visitará cada vértice y cada arco como una máximo una vez.
+	 * Los métodos auxiliares -inicializar la estructura, iterar los vértices adyacentes, etc.- se consideran
+	 * de una complejidad O(1) lo que no altera la complejidad final del método anteriormente indicada.
+	 *
 	 * @return Lista con el camino recorrido
 	 */
 	public List<Integer> bfsForest() {
@@ -53,13 +57,14 @@ public class ServicioBFS {
 	}
 
 	/**
-	 * Marcar el vértice origen como VISITADO y lo agrego a la fila. Tomo el primer
-	 * vertice de la fila y recorro todos los adyacentes que no fueron visitados y
-	 * los voy marcando agregando a la salida para visitarlos a todos y al final
-	 * para mostrarlo como solución
+	 * Método privado bfsForest
+	 *
+	 * Se marca el vértice origen recibido por parámetro como VISITADO, se agrega a la lista solución y a la fila.
+	 * Luego, por cada vértice de la fila, se recorren sus adyacentes. Aquellos que no fueron visitados
+	 * son marcados como tales, agregados a la fila y sumados al recorrido solución actual.
 	 * 
 	 * @param origen Vertice origen
-	 * @return
+	 * @return List<Integer> Lista de vértices recorridos
 	 */
 	private List<Integer> bfsForest(Integer origen) {
 		ArrayList<Integer> fila = new ArrayList<>();
