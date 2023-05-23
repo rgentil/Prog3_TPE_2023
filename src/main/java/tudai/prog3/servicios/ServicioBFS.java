@@ -22,8 +22,7 @@ public class ServicioBFS {
 	}
 
 	/**
-	 * Inicializa todos los vertices como false = "NO VISITADOS".
-	 * Complejidad: O(1)
+	 * Inicializa todos los vertices como false = "NO VISITADOS". Complejidad: O(1)
 	 */
 	private void iniciarEstructura() {
 		if (this.grafo != null) {
@@ -37,10 +36,11 @@ public class ServicioBFS {
 	/**
 	 * Método público bfsForest:
 	 *
-	 * Complejidad: O(V+A) donde V es la cantidad de vértices y A, la cantidad de arcos,
-	 * dado que en el peor de los casos se visitará cada vértice y cada arco como una máximo una vez.
-	 * Los métodos auxiliares -inicializar la estructura, iterar los vértices adyacentes, etc.- se consideran
-	 * de una complejidad O(1) lo que no altera la complejidad final del método anteriormente indicada.
+	 * Complejidad: O(V+A) donde V es la cantidad de vértices y A, la cantidad de
+	 * arcos, dado que en el peor de los casos se visitará cada vértice y cada arco
+	 * como una máximo una vez. Los métodos auxiliares -inicializar la estructura,
+	 * iterar los vértices adyacentes, etc.- se consideran de una complejidad O(1)
+	 * lo que no altera la complejidad final del método anteriormente indicada.
 	 *
 	 * @return Lista con el camino recorrido
 	 */
@@ -59,9 +59,10 @@ public class ServicioBFS {
 	/**
 	 * Método privado bfsForest
 	 *
-	 * Se marca el vértice origen recibido por parámetro como VISITADO, se agrega a la lista solución y a la fila.
-	 * Luego, por cada vértice de la fila, se recorren sus adyacentes. Aquellos que no fueron visitados
-	 * son marcados como tales, agregados a la fila y sumados al recorrido solución actual.
+	 * Se marca el vértice origen recibido por parámetro como VISITADO, se agrega a
+	 * la lista solución y a la fila. Luego, por cada vértice de la fila, se
+	 * recorren sus adyacentes. Aquellos que no fueron visitados son marcados como
+	 * tales, agregados a la fila y sumados al recorrido solución actual.
 	 * 
 	 * @param origen Vertice origen
 	 * @return List<Integer> Lista de vértices recorridos

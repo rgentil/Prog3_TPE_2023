@@ -28,7 +28,7 @@ public class Arco<T> {
 	public T getEtiqueta() {
 		return etiqueta;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -38,7 +38,8 @@ public class Arco<T> {
 		if (getClass() != obj.getClass())
 			return false;
 		Arco<?> arco = (Arco<?>) obj;
-		return arco.getVerticeOrigen() == this.getVerticeOrigen() && arco.getVerticeDestino() == this.getVerticeDestino();
+		return arco.getVerticeOrigen() == this.getVerticeOrigen()
+				&& arco.getVerticeDestino() == this.getVerticeDestino();
 	}
 
 }

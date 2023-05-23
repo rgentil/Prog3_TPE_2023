@@ -47,3 +47,6 @@ out/
 
 # Java
 target/
+/.project
+/.classpath
+

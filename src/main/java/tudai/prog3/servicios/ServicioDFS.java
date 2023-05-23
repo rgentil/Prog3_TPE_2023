@@ -39,11 +39,12 @@ public class ServicioDFS {
 	/**
 	 * Método público dfsForest:
 	 *
-	 * Complejidad: O(V+A) donde V es la cantidad de vértices y A, la cantidad de arcos.
-	 * La razón de esta complejidad reside en que durante este recorrido se visita cada vértice una vez y
-	 * se exploran todos los arcos adyacentes a ese vértice.
-	 * Los métodos auxiliares -inicializar la estructura, iterar los vértices adyacentes, etc.- se consideran
-	 * de una complejidad O(1), lo que no altera la complejidad final del método anteriormente indicada.
+	 * Complejidad: O(V+A) donde V es la cantidad de vértices y A, la cantidad de
+	 * arcos. La razón de esta complejidad reside en que durante este recorrido se
+	 * visita cada vértice una vez y se exploran todos los arcos adyacentes a ese
+	 * vértice. Los métodos auxiliares -inicializar la estructura, iterar los
+	 * vértices adyacentes, etc.- se consideran de una complejidad O(1), lo que no
+	 * altera la complejidad final del método anteriormente indicada.
 	 *
 	 * @return Lista<Integer> Lista de vértices con el camino recorrido
 	 */
