@@ -26,13 +26,11 @@ public class Test {
 
 		g.agregarArco(1, 2, null);
 		g.agregarArco(1, 3, null);
+		g.agregarArco(1, 1, null);
 		g.agregarArco(2, 5, null);
 		g.agregarArco(3, 4, null);
-		g.agregarArco(4, 5, null);
-
-		// Ciclo
 		g.agregarArco(4, 1, null);
-		g.agregarArco(1, 1, null);
+		g.agregarArco(4, 5, null);
 
 		ServicioDFS dfs = new ServicioDFS(g);
 		ServicioBFS bfs = new ServicioBFS(g);
