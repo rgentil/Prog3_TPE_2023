@@ -1,6 +1,7 @@
 package tudai.prog3.servicios;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,9 +9,9 @@ import tudai.prog3.colecciones.Arco;
 import tudai.prog3.colecciones.Grafo;
 
 /**
- * Caminos: dado un origen, un destino y un límite 'lim' retorna todos los
- * caminos que, partiendo del vértice origen, llega al vértice de destino sin
- * pasar por más de 'lim' arcos. Aclaración importante: en un camino no se puede
+ * Caminos: dado un origen, un destino y un lï¿½mite 'lim' retorna todos los
+ * caminos que, partiendo del vï¿½rtice origen, llega al vï¿½rtice de destino sin
+ * pasar por mï¿½s de 'lim' arcos. Aclaraciï¿½n importante: en un camino no se puede
  * pasar 2 veces por el mismo arco.
  * 
  * @author Lauge Guillermina, Gentil Ricardo
@@ -23,6 +24,7 @@ public class ServicioCaminos {
 	private int destino;
 	private int lim;
 	private List<List<Integer>> caminos;
+	private HashMap<Arco<?>, Boolean> visitados;
 
 	public ServicioCaminos(Grafo<?> grafo, int origen, int destino, int lim) {
 		this.grafo = grafo;
@@ -32,30 +34,53 @@ public class ServicioCaminos {
 		this.caminos = new ArrayList<List<Integer>>();
 	}
 
+	private void inicializarEstructura() {
+		this.visitados = new HashMap<Arco<?>, Boolean>();
+		for (Iterator<?> iterator = grafo.obtenerArcos(); iterator.hasNext();) {
+			Arco<?> vertice = (Arco<?>) iterator.next();
+			this.visitados.put(vertice, false);
+		}
+	}
+
 	/**
-	 * Método caminos El método es una adaptación del recorrido dfs, debido a que se
+	 * Mï¿½todo caminos El mï¿½todo es una adaptaciï¿½n del recorrido dfs, debido a que se
 	 * trata de descubrir todos los caminos posibles y no, por ejemplo, el de menor
-	 * longitud (para lo que habrá sido adecuado la adaptación de un recorrido bfs).
+	 * longitud (para lo que habrï¿½ sido adecuado la adaptaciï¿½n de un recorrido bfs).
 	 *
-	 * Complejidad: O (V + A) donde V es la cantidad de vértices y A es la cantidad
-	 * de arcos del grafo. En el peor de los casos, cuando el límite de arcos pasado
-	 * por parámetro sea excesivo, deberán recorrerse todos los vértices y todos los
-	 * arcos. En el caso contrario, cuando el límite sea igual a 0, no se realizará
-	 * ningún recorrido. De modo tal que el factor decisivo en el cálculo de la
-	 * complejidad de este método es el límite de arcos que restringe la cantidad de
-	 * arcos por los que se podrá pasar.
+	 * Complejidad: O (V + A) donde V es la cantidad de vï¿½rtices y A es la cantidad
+	 * de arcos del grafo. En el peor de los casos, cuando el lï¿½mite de arcos pasado
+	 * por parï¿½metro sea excesivo, deberï¿½n recorrerse todos los vï¿½rtices y todos los
+	 * arcos. En el caso contrario, cuando el lï¿½mite sea igual a 0, no se realizarï¿½
+	 * ningï¿½n recorrido. De modo tal que el factor decisivo en el cï¿½lculo de la
+	 * complejidad de este mï¿½todo es el lï¿½mite de arcos que restringe la cantidad de
+	 * arcos por los que se podrï¿½ pasar.
 	 *
-	 * @return List<List<Integer>> Lista de listas de vértices -caminos- que cumplen
-	 *         la restricción de límite de arcos recibida por parámetro.
+	 * @return List<List<Integer>> Lista de listas de vï¿½rtices -caminos- que cumplen
+	 *         la restricciï¿½n de lï¿½mite de arcos recibida por parï¿½metro.
 	 */
 	public List<List<Integer>> caminos() {
 		if (this.lim > 0 && this.grafo != null) {
-			this._caminos(new ArrayList<Arco<?>>(), new ArrayList<Integer>(), this.origen, 0);
+			// this._caminos(new ArrayList<Arco<?>>(), new ArrayList<Integer>(),
+			// this.origen, 0);
+
+			this.inicializarEstructura();
+			this._caminos(this.visitados, new ArrayList<Integer>(), this.origen, 0);
 		}
 		return this.caminos;
 	}
 
-	private void _caminos(List<Arco<?>> visitados, List<Integer> camino, Integer verticeActual, int cont) {
+	/**
+	 * CorreciÃ³n - No es una buena idea usar una lista para controlar los arcos
+	 * visitados en el generador de caminos. Se modifica la estructura para arcos
+	 * visitados. De List<Arco<?>> a HashMap<Arco<?>, Boolean>. Para mejorar el
+	 * acceso en las bÃºsquedas e inserciones.
+	 * 
+	 * @param visitados
+	 * @param camino
+	 * @param verticeActual
+	 * @param cont
+	 */
+	private void _caminos(HashMap<Arco<?>, Boolean> visitados, List<Integer> camino, Integer verticeActual, int cont) {
 		if (verticeActual == this.destino && cont > 0) {
 			List<Integer> tmp = new ArrayList<Integer>();
 			tmp.add(this.origen);
@@ -64,8 +89,8 @@ public class ServicioCaminos {
 		} else {
 			for (Iterator<?> it = this.grafo.obtenerArcos(verticeActual); it.hasNext();) {
 				Arco<?> arcoActual = (Arco<?>) it.next();
-				if (!visitados.contains(arcoActual)) {
-					visitados.add(arcoActual);
+				if (!visitados.get(arcoActual)) {
+					visitados.put(arcoActual, true);
 					cont += 1;
 					if (cont <= this.lim) {
 						Integer verticeAdyacente = arcoActual.getVerticeDestino();
@@ -73,7 +98,7 @@ public class ServicioCaminos {
 						this._caminos(visitados, camino, verticeAdyacente, cont);
 						camino.remove(verticeAdyacente);
 					}
-					visitados.remove(arcoActual);
+					visitados.put(arcoActual, false);
 					cont -= 1;
 				}
 			}

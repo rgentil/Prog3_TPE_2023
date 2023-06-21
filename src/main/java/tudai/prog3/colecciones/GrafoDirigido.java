@@ -18,14 +18,24 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		cantArcos = 0;
 	}
 
+	/**
+	 * O(1)
+	 */
 	@Override
 	public void agregarVertice(int verticeId) {
-		if (!this.vertices.containsKey(verticeId)) {
+		if (!contieneVertice(verticeId)) {
 			this.vertices.put(verticeId, new HashSet<>());
 			cantVertices++;
 		}
 	}
 
+	/**
+	 * O(V*A) donde V cantidad de vertices para sacar la relacion y A cantidad de
+	 * arcos.
+	 * 
+	 * Correciones. - El borrarVertice no actualiza correctamente la cantidad de
+	 * arcos. Tampoco borra correctamente los arcos entrantes del vértice a borrar.
+	 */
 	@Override
 	public void borrarVertice(int verticeId) {
 		if (this.contieneVertice(verticeId)) {
@@ -38,15 +48,25 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		}
 	}
 
+	/**
+	 * 
+	 * Corrección. - El agregarArco no verifica que ya no exista el arco generando
+	 * arcos duplicados. Se agrega condición if para controlar que el arco no exista
+	 * antes de crearlo. if (!existeArco(verticeId1, verticeId2)) {
+	 */
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
-		this.agregarVertice(verticeId1);
-		this.agregarVertice(verticeId2);
-		Arco<T> arco = new Arco<>(verticeId1, verticeId2, etiqueta);
-		this.vertices.get(verticeId1).add(arco);
-		cantArcos++;
+		if (!existeArco(verticeId1, verticeId2)) {
+			this.agregarVertice(verticeId1);
+			this.agregarVertice(verticeId2);
+			Arco<T> arco = new Arco<>(verticeId1, verticeId2, etiqueta);
+			this.vertices.get(verticeId1).add(arco);
+			cantArcos++;
+		}
 	}
 
+	/**
+	 */
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {
 		Arco<T> arco = this.obtenerArco(verticeId1, verticeId2);
@@ -56,45 +76,66 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		}
 	}
 
+	/**
+	 * O(1)
+	 */
 	@Override
 	public boolean contieneVertice(int verticeId) {
 		return this.vertices.containsKey(verticeId);
 	}
 
+	/**
+	 */
 	@Override
 	public boolean existeArco(int verticeId1, int verticeId2) {
 		return this.obtenerArco(verticeId1, verticeId2) == null ? false : true;
 	}
 
+	/**
+	 * O(V*A) donde V cantidad de vertices para sacar la relacion y A cantidad de
+	 * arcos.
+	 */
 	@Override
 	public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
-		for (Iterator<Arco<T>> it = vertices.get(verticeId1).iterator(); it.hasNext();) {
-			Arco<T> arco = (Arco<T>) it.next();
-			if (arco.getVerticeDestino() == verticeId2) {
-				return arco;
+		if (contieneVertice(verticeId1) && contieneVertice(verticeId2)) {
+			for (Iterator<Arco<T>> it = vertices.get(verticeId1).iterator(); it.hasNext();) {
+				Arco<T> arco = (Arco<T>) it.next();
+				if (arco.getVerticeDestino() == verticeId2) {
+					return arco;
+				}
 			}
 		}
 		return null;
 	}
 
+	/**
+	 * O(1)
+	 */
 	@Override
 	public int cantidadVertices() {
 		return this.cantVertices;
 	}
 
+	/**
+	 * O(1)
+	 */
 	@Override
 	public int cantidadArcos() {
 		return this.cantArcos;
 	}
 
+	/**
+	 * O(1)
+	 */
 	@Override
 	public Iterator<Integer> obtenerVertices() {
 		return this.vertices.keySet().iterator();
 	}
 
+	
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
-		if (this.vertices.containsKey(verticeId)) {
+		if (contieneVertice(verticeId)) {
 			List<Integer> adyacentes = new ArrayList<Integer>();
 			for (Iterator<Arco<T>> it = vertices.get(verticeId).iterator(); it.hasNext();) {
 				Arco<T> arco = (Arco<T>) it.next();
@@ -117,8 +158,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
-		if (!this.vertices.containsKey(verticeId))
+		if (!contieneVertice(verticeId)) {
 			return null;
+		}
 		return this.vertices.get(verticeId).iterator();
 	}
 
