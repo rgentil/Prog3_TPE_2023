@@ -60,9 +60,6 @@ public class ServicioCaminos {
 	 */
 	public List<List<Integer>> caminos() {
 		if (this.lim > 0 && this.grafo != null) {
-			// this._caminos(new ArrayList<Arco<?>>(), new ArrayList<Integer>(),
-			// this.origen, 0);
-
 			this.inicializarEstructura();
 			this._caminos(this.visitados, new ArrayList<Integer>(), this.origen, 0);
 		}

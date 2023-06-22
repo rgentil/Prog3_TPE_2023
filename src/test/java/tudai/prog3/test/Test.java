@@ -21,6 +21,15 @@ public class Test {
 		g.agregarArco(4, 1, null);
 		g.agregarArco(4, 5, null);
 
+		/*
+		 * Arcos que no se deben generar para que no haya repetidos. Resuelve - El
+		 * agregarArco no verifica que ya no exista el arco generando arcos duplicados."
+		 */
+		g.agregarArco(1, 2, null);
+		g.agregarArco(1, 2, null);
+		g.agregarArco(1, 3, null);
+		g.agregarArco(4, 5, null);
+
 		ServicioDFS dfs = new ServicioDFS(g);
 		ServicioBFS bfs = new ServicioBFS(g);
 		ServicioCaminos cam = new ServicioCaminos(g, 1, 5, 3);
@@ -36,6 +45,21 @@ public class Test {
 		for (List<Integer> list : caminos) {
 			System.out.println(list.toString());
 		}
+
+		g.imprimir();
+		System.out.println("#Arcos " + g.cantidadArcos());
+		System.out.println("#Vertice " + g.cantidadVertices());
+
+		/*
+		 * Solución a - El borrarVertice no actualiza correctamente la cantidad de
+		 * arcos. Tampoco borra correctamente los arcos entrantes del vértice a borrar.
+		 */
+		int v_eliminar = 1;
+		System.out.println("\nSe elimina el vertice " + v_eliminar);
+		g.borrarVertice(v_eliminar);
+		g.imprimir();
+		System.out.println("#Arcos " + g.cantidadArcos());
+		System.out.println("#Vertice " + g.cantidadVertices());
 
 	}
 

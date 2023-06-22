@@ -6,6 +6,16 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Correciones. Funcionamiento: - El borrarVertice no actualiza correctamente la
+ * cantidad de arcos. Tampoco borra correctamente los arcos entrantes del
+ * vértice a borrar. - El agregarArco no verifica que ya no exista el arco
+ * generando arcos duplicados."
+ * 
+ *
+ * @param <T>
+ */
+
 public class GrafoDirigido<T> implements Grafo<T> {
 
 	private HashMap<Integer, HashSet<Arco<T>>> vertices;
@@ -30,22 +40,41 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	/**
-	 * O(V*A) donde V cantidad de vertices para sacar la relacion y A cantidad de
-	 * arcos.
+	 * O(V*A) donde V cantidad de vertices para sacar la relacion, en caso es 1, y A
+	 * cantidad de arcos para eliminar.
 	 * 
 	 * Correciones. - El borrarVertice no actualiza correctamente la cantidad de
 	 * arcos. Tampoco borra correctamente los arcos entrantes del vértice a borrar.
 	 */
 	@Override
 	public void borrarVertice(int verticeId) {
+
 		if (this.contieneVertice(verticeId)) {
-			for (Iterator<Arco<T>> it = vertices.get(verticeId).iterator(); it.hasNext();) {
-				Arco<T> arco = (Arco<T>) it.next();
+			List<Arco<T>> arcosAEliminar = new ArrayList<>();
+
+			// Primero, genero una lista con los vertices que forman un arco con el vertice
+			// a eliminar
+			for (Arco<T> arco : vertices.get(verticeId)) {
+				arcosAEliminar.add(arco);
+			}
+
+			// Luego, se eliminan
+			for (Arco<T> arco : arcosAEliminar) {
 				this.borrarArco(verticeId, arco.getVerticeDestino());
 			}
+
+			// Recorro todos los vertices para eliminar arcos que se generen hacia el
+			// vertice a eliminar
+			for (Iterator<Integer> iterator = this.obtenerVertices(); iterator.hasNext();) {
+				Integer vertice = (Integer) iterator.next();
+				this.borrarArco(vertice, verticeId);
+			}
+
+			// Finalmente, eliminamos el vértice y actualizamos el contador
 			vertices.remove(verticeId);
 			cantVertices--;
 		}
+
 	}
 
 	/**
@@ -132,7 +161,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		return this.vertices.keySet().iterator();
 	}
 
-	
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
 		if (contieneVertice(verticeId)) {
@@ -166,9 +194,10 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public void imprimir() {
+		System.out.println("\nGrafo generado: ");
 		for (Iterator<Integer> iteratorV = this.obtenerVertices(); iteratorV.hasNext();) {
 			Integer vertice = (Integer) iteratorV.next();
-			System.out.print(vertice + ": ");
+			System.out.print("   " + vertice + ": ");
 			for (Iterator<Integer> iteratorA = this.obtenerAdyacentes(vertice); iteratorA.hasNext();) {
 				Integer ady = (Integer) iteratorA.next();
 				System.out.print(ady + " ");
