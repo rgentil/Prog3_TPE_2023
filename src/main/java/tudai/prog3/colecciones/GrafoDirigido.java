@@ -22,6 +22,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	private int cantVertices;
 	private int cantArcos;
 
+	/**
+	 * O(1)
+	 */
 	public GrafoDirigido() {
 		this.vertices = new HashMap<Integer, HashSet<Arco<T>>>();
 		cantVertices = 0;
@@ -40,8 +43,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	/**
-	 * O(V*A) donde V cantidad de vertices para sacar la relacion, en caso es 1, y A
-	 * cantidad de arcos para eliminar.
+	 * O(V*A) donde V cantidad de vertices para sacar la relacion, y A cantidad de
+	 * arcos para eliminar.
 	 * 
 	 * Correciones. - El borrarVertice no actualiza correctamente la cantidad de
 	 * arcos. Tampoco borra correctamente los arcos entrantes del vértice a borrar.
@@ -78,10 +81,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	/**
-	 * 
-	 * Corrección. - El agregarArco no verifica que ya no exista el arco generando
-	 * arcos duplicados. Se agrega condición if para controlar que el arco no exista
-	 * antes de crearlo. if (!existeArco(verticeId1, verticeId2)) {
+	 * O(1) Corrección. - El agregarArco no verifica que ya no exista el arco
+	 * generando arcos duplicados. Se agrega condición if para controlar que el arco
+	 * no exista antes de crearlo. if (!existeArco(verticeId1, verticeId2)) {
 	 */
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
@@ -95,6 +97,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	/**
+	 * O(V*A)
 	 */
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {
@@ -114,6 +117,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	/**
+	 * O(V*A)
 	 */
 	@Override
 	public boolean existeArco(int verticeId1, int verticeId2) {
@@ -121,8 +125,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	/**
-	 * O(V*A) donde V cantidad de vertices para sacar la relacion y A cantidad de
-	 * arcos.
+	 * O(V*A) donde V cantidad de vertices y A cantidad de arcos.
 	 */
 	@Override
 	public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
@@ -161,6 +164,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		return this.vertices.keySet().iterator();
 	}
 
+	/**
+	 * O(V*A).
+	 */
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
 		if (contieneVertice(verticeId)) {
@@ -174,6 +180,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		return null;
 	}
 
+	/**
+	 * O(V*A).
+	 */
 	@Override
 	public Iterator<Arco<T>> obtenerArcos() {
 		List<Arco<T>> arcos = new ArrayList<Arco<T>>();
@@ -184,6 +193,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		return arcos.iterator();
 	}
 
+	/**
+	 * O(1).
+	 */
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
 		if (!contieneVertice(verticeId)) {
@@ -192,6 +204,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		return this.vertices.get(verticeId).iterator();
 	}
 
+	/**
+	 * O(V*A)
+	 */
 	@Override
 	public void imprimir() {
 		System.out.println("\nGrafo generado: ");
