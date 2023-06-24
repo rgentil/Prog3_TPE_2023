@@ -10,7 +10,7 @@ import tudai.prog3.servicios.ServicioBFS;
 import tudai.prog3.servicios.ServicioCaminos;
 import tudai.prog3.servicios.ServicioDFS;
 
-public class MainPrueba {
+public class MainPruebaCatedra {
 	public static <T> void mostrarGrafo(Grafo<T> grafo) {
 		// Recorremos todos los vertices
 		Iterator<Integer> it = grafo.obtenerVertices();
